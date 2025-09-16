@@ -1,14 +1,15 @@
 pipeline {
     agent any
 
-    parameters {
-        string(name: 'BROWSER', defaultValue: 'chrome', description: 'Browser to run tests')
-        string(name: 'GRID_URL', defaultValue: '', description: 'Grid or BrowserStack URL')
-        string(name: 'EMAIL_TO', defaultValue: 'team@example.com', description: 'Recipients for report email')
+    tools {
+        jdk 'jdk17'       // configure JDK 17 under "Global Tool Configuration"
+        maven 'maven3'    // configure Maven 3.x under "Global Tool Configuration"
     }
 
-    environment {
-        MAVEN_OPTS = "-Dmaven.test.failure.ignore=true"
+    parameters {
+        string(name: 'BROWSER', defaultValue: 'chrome', description: 'Browser to run tests')
+        string(name: 'GRID_URL', defaultValue: '', description: 'Selenium Grid or BrowserStack hub URL')
+        string(name: 'EMAIL_TO', defaultValue: 'team@example.com', description: 'Recipients for report email')
     }
 
     stages {
@@ -20,7 +21,7 @@ pipeline {
 
         stage('Build & Test') {
             steps {
-                sh "mvn clean test -Dbrowser=${params.BROWSER} -DgridUrl=${params.GRID_URL}"
+                sh "mvn clean test -Dbrowser=${BROWSER} -DgridUrl=${GRID_URL}"
             }
         }
 
@@ -32,14 +33,13 @@ pipeline {
 
         stage('Send Email') {
             steps {
-                mail bcc: '',
-                     body: """Build: ${env.BUILD_NUMBER}
+                emailext (
+                    subject: "UI Automation Report - ${env.JOB_NAME} Build #${env.BUILD_NUMBER}",
+                    body: """Build: ${env.BUILD_NUMBER}
 Job: ${env.JOB_NAME}
 Report: ${env.BUILD_URL}artifact/test-output/ExtentReport.html""",
-                     from: 'jenkins@example.com',
-                     replyTo: 'jenkins@example.com',
-                     subject: "UI Automation Report - Job ${env.JOB_NAME} Build #${env.BUILD_NUMBER}",
-                     to: "${params.EMAIL_TO}"
+                    to: "${EMAIL_TO}"
+                )
             }
         }
     }

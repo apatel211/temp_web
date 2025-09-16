@@ -8,8 +8,8 @@ pipeline {
 
     parameters {
         string(name: 'BROWSER', defaultValue: 'chrome', description: 'Browser to run tests')
-        string(name: 'GRID_URL', defaultValue: '', description: 'Selenium Grid or BrowserStack hub URL')
-        string(name: 'EMAIL_TO', defaultValue: 'team@example.com', description: 'Recipients for report email')
+        string(name: 'GRID_URL', defaultValue: 'https://ankita26:pE9yzDEHxRB57A2iFCgz@hub-cloud.browserstack.com/wd/hub', description: 'Selenium Grid or BrowserStack hub URL')
+        string(name: 'EMAIL_TO', defaultValue: 'ankita.it.2012@gmail.com', description: 'Recipients for report email')
     }
 
     stages {
@@ -31,16 +31,19 @@ pipeline {
             }
         }
 
-        stage('Send Email') {
-            steps {
-                emailext (
-                    subject: "UI Automation Report - ${env.JOB_NAME} Build #${env.BUILD_NUMBER}",
-                    body: """Build: ${env.BUILD_NUMBER}
-Job: ${env.JOB_NAME}
-Report: ${env.BUILD_URL}artifact/test-output/ExtentReport.html""",
-                    to: "${EMAIL_TO}"
-                )
-            }
-        }
+       stage('Send Email') {
+           steps {
+               withCredentials([usernamePassword(credentialsId: 'smtp-creds', usernameVariable: 'SMTP_USER', passwordVariable: 'SMTP_PASS')]) {
+                   emailext (
+                       subject: "UI Automation Report - ${env.JOB_NAME} Build #${env.BUILD_NUMBER}",
+                       body: """Build: ${env.BUILD_NUMBER}
+       Job: ${env.JOB_NAME}
+       Report: ${env.BUILD_URL}artifact/test-output/ExtentReport.html""",
+                       to: "${EMAIL_TO}",
+                       replyTo: "${SMTP_USER}"
+                   )
+               }
+           }
+       }
     }
 }

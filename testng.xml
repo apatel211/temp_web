@@ -1,0 +1,43 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
+<suite name="Multibank Suite" parallel="classes" thread-count="1">
+
+  <!-- Register the test listener for reporting and screenshots -->
+  <listeners>
+    <listener class-name="listeners.TestListener"/>
+    <listener class-name="listeners.RetryListener"/> <!-- NEW: global retry -->
+  </listeners>
+
+  <!-- Define two tests to demonstrate parallel runs (Chrome and Firefox) -->
+  <test name="ChromeTests">
+    <parameter name="browser" value="chrome"/>
+    <classes>
+      <class name="tests.HomeTests"/>
+      <class name="tests.AboutTests"/>
+      <class name="tests.AppTests"/>
+      <class name="tests.SpotTests"/>
+    </classes>
+  </test>
+
+  <test name="FirefoxTests">
+    <parameter name="browser" value="firefox"/>
+    <classes>
+      <class name="tests.HomeTests"/>
+      <class name="tests.AboutTests"/>
+      <class name="tests.AppTests"/>
+      <class name="tests.SpotTests"/>
+    </classes>
+  </test>
+
+  <!--
+  <test name="UITests">
+    <parameter name="browser" value="${browser}"/>
+    <classes>
+      <class name="tests.HomeTests"/>
+      <class name="tests.AboutTests"/>
+      <class name="tests.AppTests"/>
+      <class name="tests.SpotTests"/>
+    </classes>
+  </test>
+  -->
+
+</suite>

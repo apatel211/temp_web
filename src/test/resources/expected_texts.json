@@ -1,0 +1,24 @@
+{
+  "why_multibank": {
+    "heading": {
+      "selector": "h1, h2, .main-heading, .page-title",
+      "expected": "Blog"
+    },
+    "description": {
+      "selector": "p, .paragraph, .description, .text",
+      "expected": "Multiple"
+    },
+    "card_1_title": {
+      "selector": "card, .feature-card, .benefit-card, .why-card, [class*='card']",
+      "expected": "DEEP POOL OF LIQUIDITY MultiBank io offers deep liquidity ensuring the best prices on big orders."
+    },
+    "card_1_desc": {
+      "selector": ".card, .feature-card, .benefit-card, .why-card, [class*='card']",
+      "expected": "DEEP POOL OF LIQUIDITY MultiBank io offers deep liquidity ensuring the best prices on big orders."
+    },
+    "cta_1": {
+      "selector": "button, .btn, .button, a[class*='btn'], [role='button']",
+      "expected": "Explore our platform"
+    }
+  }
+}

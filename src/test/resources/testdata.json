@@ -1,0 +1,50 @@
+{
+  "navItems": [
+    {
+      "text": "Dashboard",
+      "hrefContains": "https://trade.multibank.io/"
+    },
+    {
+      "text": "Markets",
+      "hrefContains": "https://trade.multibank.io/"
+    },
+    {
+      "text": "Log In",
+      "hrefContains": "https://trade.multibank.io/markets"
+    },
+    {
+      "text": "Sign Up",
+      "hrefContains": "https://trade.multibank.io/login"
+    }
+  ],
+  "app_download_links": {
+    "apple_app_store": {
+      "expected_url": "https://apps.apple.com/ae/app/multibank-io-buy-btc-crypto/id1592119946",
+      "expected_title": "MultiBank.io: Buy BTC & Crypto on the App Store"
+    },
+    "google_play_store": {
+      "expected_url": "https://play.google.com/store/apps/details?id=com.multibank.app&pli=1",
+      "expected_title": "MultiBank.io: Buy BTC & Crypto - Apps on Google Play"
+    }
+  },
+  "footerBanners": [
+    "Unlock the Power of Up to 250x",
+    "Heavily Regulated",
+    "MBIO is part of MultiBank Group, the most",
+    "regulated financial broker with 17 licenses.",
+    "Sign Up Now!",
+    "Deposit using Card or Wire Transfer",
+    "Join Now & Start Trading!",
+    "Deposit using Card or Wire",
+    "Transfer",
+    "Sign up"
+  ],
+  "spot_headers": [
+    "Pair",
+    "Price",
+    "24h Change",
+    "High",
+    "Low",
+    "Last 7 days"
+  ]
+}

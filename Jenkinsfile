@@ -2,8 +2,8 @@ pipeline {
     agent any
 
     tools {
-        jdk 'jdk17'       // configure JDK 17 under "Global Tool Configuration"
-        maven 'maven3'    // configure Maven 3.x under "Global Tool Configuration"
+        jdk 'jdk17'
+        maven 'maven3'
     }
 
     parameters {
@@ -30,23 +30,18 @@ pipeline {
                 archiveArtifacts artifacts: 'test-output/**', fingerprint: true
             }
         }
-
-        stage('Send Email') {
-            steps {
-                emailext (
-                    subject: "UI Automation Report - ${env.JOB_NAME} Build #${env.BUILD_NUMBER}",
-                    body: """Build: ${env.BUILD_NUMBER}
-        Job: ${env.JOB_NAME}
-        Result: ${currentBuild.currentResult}
-        Report: ${env.BUILD_URL}artifact/test-output/ExtentReport.html""",
-                    to: "${params.EMAIL_TO}"
-                )
-            }
-        }
     }
 
     post {
         always {
+            emailext (
+                subject: "UI Automation Report - ${env.JOB_NAME} Build #${env.BUILD_NUMBER}",
+                body: """Build: ${env.BUILD_NUMBER}
+Job: ${env.JOB_NAME}
+Result: ${currentBuild.currentResult}
+Report: ${env.BUILD_URL}artifact/test-output/ExtentReport.html""",
+                to: "${params.EMAIL_TO}"
+            )
             echo "Build finished. Email notification sent."
         }
     }

@@ -26,7 +26,7 @@ jobs:
         run: |
           mvn clean test -Dbrowser=chrome -DgridUrl=https://${BROWSERSTACK_USERNAME}:${BROWSERSTACK_ACCESS_KEY}@hub-cloud.browserstack.com/wd/hub
 
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           name: browserstack-test-output
           path: test-output/**

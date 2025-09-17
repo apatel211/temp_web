@@ -23,7 +23,7 @@ jobs:
       - name: Run tests (local Chrome)
         run: mvn clean test -Dbrowser=chrome
 
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           name: test-output
           path: test-output/**

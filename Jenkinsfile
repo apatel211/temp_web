@@ -21,7 +21,7 @@ pipeline {
 
         stage('Build & Test') {
             steps {
-                sh "mvn clean test -Dbrowser=${BROWSER} -DgridUrl=${GRID_URL}"
+                sh "mvn clean test -Dbrowser=${params.BROWSER} -DgridUrl=${params.GRID_URL}"
             }
         }
 
@@ -31,19 +31,26 @@ pipeline {
             }
         }
 
-       stage('Send Email') {
-           steps {
-               withCredentials([usernamePassword(credentialsId: 'smtp-creds', usernameVariable: 'SMTP_USER', passwordVariable: 'SMTP_PASS')]) {
-                   emailext (
-                       subject: "UI Automation Report - ${env.JOB_NAME} Build #${env.BUILD_NUMBER}",
-                       body: """Build: ${env.BUILD_NUMBER}
-       Job: ${env.JOB_NAME}
-       Report: ${env.BUILD_URL}artifact/test-output/ExtentReport.html""",
-                       to: "${EMAIL_TO}",
-                       replyTo: "${SMTP_USER}"
-                   )
-               }
-           }
-       }
+        stage('Send Email') {
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'smtp-creds', usernameVariable: 'SMTP_USER', passwordVariable: 'SMTP_PASS')]) {
+                    emailext (
+                        subject: "UI Automation Report - ${env.JOB_NAME} Build #${env.BUILD_NUMBER}",
+                        body: """Build: ${env.BUILD_NUMBER}
+Job: ${env.JOB_NAME}
+Result: ${currentBuild.currentResult}
+Report: ${env.BUILD_URL}artifact/test-output/ExtentReport.html""",
+                        to: "${params.EMAIL_TO}",
+                        replyTo: "${SMTP_USER}"
+                    )
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+            echo "Build finished. Email notification sent."
+        }
     }
 }

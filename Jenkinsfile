@@ -33,21 +33,18 @@ pipeline {
 
         stage('Send Email') {
             steps {
-                withCredentials([usernamePassword(credentialsId: 'smtp-creds', usernameVariable: 'SMTP_USER', passwordVariable: 'SMTP_PASS')]) {
-                    emailext (
-                        subject: "UI Automation Report - ${env.JOB_NAME} Build #${env.BUILD_NUMBER}",
-                        body: """Build: ${env.BUILD_NUMBER}
-Job: ${env.JOB_NAME}
-Result: ${currentBuild.currentResult}
-Report: ${env.BUILD_URL}artifact/test-output/ExtentReport.html""",
-                        to: "${params.EMAIL_TO}",
-                        replyTo: "${SMTP_USER}"
-                    )
-                }
+                emailext (
+                    subject: "UI Automation Report - ${env.JOB_NAME} Build #${env.BUILD_NUMBER}",
+                    body: """Build: ${env.BUILD_NUMBER}
+        Job: ${env.JOB_NAME}
+        Result: ${currentBuild.currentResult}
+        Report: ${env.BUILD_URL}artifact/test-output/ExtentReport.html""",
+                    to: "${params.EMAIL_TO}"
+                )
             }
         }
     }
-
+    
     post {
         always {
             echo "Build finished. Email notification sent."

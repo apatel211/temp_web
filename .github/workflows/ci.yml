@@ -21,7 +21,7 @@ jobs:
         run: sudo apt-get install -y maven
 
       - name: Run tests (local Chrome)
-        run: mvn clean test -Dbrowser=chrome
+        run: mvn clean test
 
       - uses: actions/upload-artifact@v4
         with:
